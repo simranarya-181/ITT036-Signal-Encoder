@@ -1,0 +1,18 @@
+# Python environments
+.venv/
+venv/
+env/
+itt036-env/
+
+# Python cache and testing
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Editors
+.vscode/
+.idea/
+
+# Generated files
+.DS_Store
+Thumbs.db
