@@ -48,7 +48,7 @@ The reported test run passed six tests: random-bit generation, zero-run behavior
 ---
 
 ## 7. References
-* **Course Material**: ITT036 Class Notes and Lecture Presentations (Digital Transmission, Line Coding, Scrambling, and Modulation concepts).
+* **Course Material**: Class Notes and Lecture Presentations (Digital Transmission, Line Coding, Scrambling, and Modulation concepts).
 * **Python Documentation**: docs.python.org/3/
 * **NumPy Documentation**: numpy.org/doc/
 * **Matplotlib Documentation**: matplotlib.org/stable/
@@ -71,3 +71,10 @@ The reported test run passed six tests: random-bit generation, zero-run behavior
 ├── requirements.txt     # Environment dependencies
 └── tests/
     └── test_project.py  # Unit test suite
+
+---
+
+## 9. Contributors
+* **Sakshi** (2024BITE023)
+* **Harmandeep kour** (2024BITE038)
+* **Simran** (2024BITE041)    
