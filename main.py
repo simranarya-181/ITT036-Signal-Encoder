@@ -1,7 +1,7 @@
-
 from data_generator import get_digital_data, bits_to_string
 from palindrome import longest_palindrome
 from line_coding import ENCODERS, encode
+from scrambling import scramble_b8zs, scramble_hdb3
 from decoding import (
     decode_nrz_l,
     decode_nrz_i,
@@ -20,79 +20,11 @@ from plotting import plot_line_signal, plot_staircase
 
 
 # ==================================================
-# B8ZS AND HDB3 SCRAMBLING
+# DESCRAMBLING SCHEMES
 # ==================================================
 
-def scramble_b8zs(bits, initial_polarity=1):
-    """AMI encoding with B8ZS substitution."""
-
-    signal = []
-    polarity = -initial_polarity
-    i = 0
-
-    while i < len(bits):
-        if bits[i:i + 8] == [0] * 8:
-            # Standard B8ZS: 000VB0VB
-            # V has the same polarity as the preceding pulse.
-            # B has the opposite polarity.
-            p = polarity
-            signal.extend([0, 0, 0, p, -p, 0, p, -p])
-            polarity = -p
-            i += 8
-
-        elif bits[i] == 0:
-            signal.append(0)
-            i += 1
-
-        else:
-            polarity *= -1
-            signal.append(polarity)
-            i += 1
-
-    return signal
-
-
-def scramble_hdb3(bits, initial_polarity=1):
-    """AMI encoding with HDB3 substitution."""
-
-    signal = []
-    polarity = -initial_polarity
-    pulse_count = 0
-    i = 0
-
-    while i < len(bits):
-        if bits[i:i + 4] == [0] * 4:
-            if pulse_count % 2 == 1:
-                # 000V: V repeats the previous pulse polarity.
-                violation = polarity
-                signal.extend([0, 0, 0, violation])
-                polarity = violation
-            else:
-                # B00V: B is opposite to the previous pulse;
-                # V repeats B's polarity.
-                balancing = -polarity
-                signal.extend([balancing, 0, 0, balancing])
-                polarity = balancing
-
-            pulse_count = 0
-            i += 4
-
-        elif bits[i] == 0:
-            signal.append(0)
-            i += 1
-
-        else:
-            polarity *= -1
-            signal.append(polarity)
-            pulse_count += 1
-            i += 1
-
-    return signal
-
-
 def descramble_b8zs(signal):
-    """Restore B8ZS substitution patterns to eight zeros."""
-
+    """Restore B8ZS substitution patterns (000VB0VB) back to eight zeros."""
     result = list(signal)
     i = 0
 
@@ -104,8 +36,8 @@ def descramble_b8zs(signal):
             and a != 0
             and result[i + 4] == -a
             and result[i + 5] == 0
-            and result[i + 6] == a
-            and result[i + 7] == -a
+            and result[i + 6] == -a
+            and result[i + 7] == a
         ):
             result[i:i + 8] = [0] * 8
             i += 8
@@ -116,8 +48,7 @@ def descramble_b8zs(signal):
 
 
 def descramble_hdb3(signal):
-    """Restore HDB3 substitutions to four zeros."""
-
+    """Restore HDB3 substitution patterns (000V or B00V) back to four zeros."""
     result = list(signal)
     i = 0
 
@@ -157,7 +88,7 @@ def descramble_hdb3(signal):
 
 
 # ==================================================
-# DECODING
+# DECODING DISPATCH
 # ==================================================
 
 def decode_signal(signal, scheme):
