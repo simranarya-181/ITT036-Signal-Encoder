@@ -71,7 +71,7 @@ The reported test run passed six tests: random-bit generation, zero-run behavior
 ├── requirements.txt     # Environment dependencies
 └── tests/
     └── test_project.py  # Unit test suite
-
+```
 ---
 
 ## 9. Contributors
