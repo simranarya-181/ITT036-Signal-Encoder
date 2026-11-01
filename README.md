@@ -1,7 +1,7 @@
 # PROJECT REPORT
 # ITT036: Digital Signal Encoder and Decoder
 
-A menu-driven Python program demonstrating binary-data generation, longest-palindrome detection, digital line coding, AMI scrambling options, PCM and Delta Modulation, decoding, and signal visualization.
+A menu-driven Python program demonstrating binary-data generation, longest-palindrome detection, digital line coding, AMI scrambling options, PCM and Delta Modulation, decoding, and signal visualizations.
 
 ---
 
